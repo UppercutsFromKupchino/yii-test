@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use app\models\Image;
 use yii\web\UploadedFile;
+use app\models\SignupForm;
 
 class ImageController extends Controller
 {
@@ -44,5 +45,19 @@ class ImageController extends Controller
         $image = $activeRecord->getOneImage($id);
 
         return $this->render('oneimage.php', ['image' => $image]);
+    }
+
+    public function actionSignUp()
+    {
+        $model = new SignupForm();
+
+        if($model->load(Yii::$app->request->post())) {
+            $model->signup();
+            return $this->redirect('/image');
+        }
+
+        return $this->render('signup', [
+            'model' => $model
+        ]);
     }
 }
